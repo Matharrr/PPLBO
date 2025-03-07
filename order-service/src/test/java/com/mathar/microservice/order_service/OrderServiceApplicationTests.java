@@ -1,5 +1,5 @@
 package com.mathar.microservice.order_service;
-
+import com.mathar.microservice.order_service.stubs.InventoryClientStubs;
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,8 +9,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.testcontainers.containers.MySQLContainer;
-
-import com.mathar.microservice.order_service.stubs.InventoryClientStub;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -38,11 +36,13 @@ class OrderServiceApplicationTests {
         String submitOrderJson = """
                 {
                      "skuCode": "iphone_15",
+                     "price": 1000,
                      "quantity": 1
                 }
                 """;
+        InventoryClientStubs.stubInventoryCall("iphone_15", 1);
 
-        InventoryClientStub.stubInventoryCall("iphone_15", 1);
+
         var responseBodyString = RestAssured.given()
                 .contentType("application/json")
                 .body(submitOrderJson)
