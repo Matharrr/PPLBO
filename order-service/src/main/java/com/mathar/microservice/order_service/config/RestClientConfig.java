@@ -35,3 +35,4 @@ public class RestClientConfig {
         return factory;
     }
 }
+// Compare this snippet from product-service/src/main/java/com/mathar/microservice/product/config/RestClientConfig.java:
